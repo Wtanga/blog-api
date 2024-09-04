@@ -1,8 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services;
 
+use App\Models\Comment;
 use App\Models\Post;
+use App\Services\CommentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,27 +12,44 @@ class CommentServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_create_comment_for_post()
+    protected CommentService $commentService;
+
+    protected function setUp(): void
     {
-        $post = Post::factory()->create();
-
-        $response = $this->postJson('/api/posts/'.$post->id.'/comments', [
-            'text' => 'This is a comment.',
-        ]);
-
-        $response->assertStatus(201)
-            ->assertJsonStructure(['data' => ['id', 'text']]);
+        parent::setUp();
+        $this->commentService = new CommentService;
     }
 
-    public function test_cannot_create_comment_with_invalid_data()
+    public function test_create_comment()
     {
         $post = Post::factory()->create();
+        $text = 'This is a comment';
 
-        $response = $this->postJson('/api/posts/'.$post->id.'/comments', [
-            'text' => '',
-        ]);
+        $comment = $this->commentService->create($text, $post);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['text']);
+        $this->assertInstanceOf(Comment::class, $comment);
+        $this->assertEquals($text, $comment->text);
+        $this->assertEquals($post->id, $comment->post_id);
+    }
+
+    public function test_update_comment()
+    {
+        $comment = Comment::factory()->create();
+        $newText = 'Updated comment text';
+
+        $updatedComment = $this->commentService->update($comment, $newText);
+
+        $this->assertInstanceOf(Comment::class, $updatedComment);
+        $this->assertEquals($newText, $updatedComment->text);
+    }
+
+    public function test_delete_comment()
+    {
+        $comment = Comment::factory()->create();
+
+        $result = $this->commentService->delete($comment);
+
+        $this->assertTrue($result);
+        $this->assertSoftDeleted($comment);
     }
 }
