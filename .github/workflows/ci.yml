@@ -45,4 +45,12 @@ jobs:
           DB_DATABASE: blog_api
           DB_HOST: 127.0.0.1
           DB_PASSWORD: root
-        run: php artisan test --coverage-text --colors
+        run: php artisan test --coverage-clover=coverage.xml --colors
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
