@@ -35,6 +35,7 @@
 
 ## Start
 `docker-compose up -d --build`
+- visit http://127.0.0.1:8000
 
 ## Seed
 `docker-compose exec app php artisan migrate:fresh --seed`
