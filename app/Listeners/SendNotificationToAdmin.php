@@ -3,19 +3,18 @@
 namespace App\Listeners;
 
 use App\Events\Post\PostCreated;
-use App\Notifications\PostCreatedNotification;
-use Illuminate\Support\Facades\Notification;
+use App\Services\NotificationService;
 
 class SendNotificationToAdmin
 {
-    private mixed $email;
+    private NotificationService $notificationService;
 
     /**
      * Create the event listener.
      */
-    public function __construct()
+    public function __construct(NotificationService $notificationService)
     {
-        $this->email = config('admin.email');
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -23,6 +22,6 @@ class SendNotificationToAdmin
      */
     public function handle(PostCreated $event): void
     {
-        Notification::route('mail', $this->email)->notify(new PostCreatedNotification($event->post));
+        $this->notificationService->sendPostCreatedNotificationToAdmin($event->post);
     }
 }
