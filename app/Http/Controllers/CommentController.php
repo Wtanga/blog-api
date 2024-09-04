@@ -15,14 +15,18 @@ class CommentController extends Controller
 
     public function store(CommentRequest $request, Post $post): CommentResource
     {
-        $validated = $request->validated();
-        return new CommentResource($this->commentService->create($validated['text'], $post));
+        return new CommentResource($this->commentService->create(
+            $request->string('text')->toString(),
+            $post
+        ));
     }
 
     public function update(CommentRequest $request, Post $post, Comment $comment): CommentResource
     {
-        $validated = $request->validated();
-        return new CommentResource($this->commentService->update($comment, $validated['text']));
+        return new CommentResource($this->commentService->update(
+            $comment,
+            $request->string('text')->toString(),
+        ));
     }
 
     public function destroy(Post $post, Comment $comment): JsonResponse

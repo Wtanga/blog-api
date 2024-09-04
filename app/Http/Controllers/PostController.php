@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\PostWithCommentsResource;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
@@ -20,19 +21,24 @@ class PostController extends Controller
 
     public function store(PostRequest $request): PostResource
     {
-        $validated = $request->validated();
-        return new PostResource($this->postService->create($validated['title'], $validated['description']));
+        return new PostResource($this->postService->create(
+            $request->string('title')->toString(),
+            $request->string('description')->toString()
+        ));
     }
 
-    public function show(Post $post): PostResource
+    public function show(Post $post): PostWithCommentsResource
     {
-        return new PostResource($post->load('comments'));
+        return new PostWithCommentsResource($post->load('comments'));
     }
 
     public function update(PostRequest $request, Post $post): PostResource
     {
-        $validated = $request->validated();
-        return new PostResource($this->postService->update($post, $validated['title'], $validated['description']));
+        return new PostResource($this->postService->update(
+            $post,
+            $request->string('title')->toString(),
+            $request->string('description')->toString()
+        ));
     }
 
     public function destroy(Post $post): JsonResponse

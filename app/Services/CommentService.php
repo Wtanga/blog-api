@@ -7,7 +7,6 @@ use App\Models\Post;
 
 class CommentService
 {
-
     public function create(string $text, Post $post): Comment
     {
         return $post->comments()->create(['text' => $text]);
@@ -20,13 +19,8 @@ class CommentService
         return $comment;
     }
 
-    public function delete(Comment $comment)
+    public function delete(Comment $comment): ?bool
     {
         return $comment->delete();
-    }
-
-    public function getWithPagination()
-    {
-        return Post::whereNull('deleted_at')->paginate(10);
     }
 }

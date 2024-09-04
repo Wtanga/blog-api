@@ -14,9 +14,7 @@ class PostCreatedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(private readonly Post $post)
-    {
-    }
+    public function __construct(private readonly Post $post) {}
 
     /**
      * Get the notification's delivery channels.
@@ -36,7 +34,7 @@ class PostCreatedNotification extends Notification
         return (new MailMessage)
             ->subject('New Post Created')
             ->line('A new post has been created.')
-            ->line('Title: ' . $this->post->title)
-            ->line('Description: ' . $this->post->description);
+            ->line('Title: '.$this->post->title)
+            ->line('Description: '.$this->post->description);
     }
 }

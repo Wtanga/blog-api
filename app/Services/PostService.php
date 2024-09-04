@@ -4,14 +4,17 @@ namespace App\Services;
 
 use App\Events\Post\PostCreated;
 use App\Models\Post;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostService
 {
+    private const PER_PAGE = 10;
+
     public function create(string $title, string $description): Post
     {
         $post = Post::create([
             'title' => $title,
-            'description' => $description
+            'description' => $description,
         ]);
 
         PostCreated::dispatch($post);
@@ -23,19 +26,19 @@ class PostService
     {
         $post->update([
             'title' => $title,
-            'description' => $description
+            'description' => $description,
         ]);
 
         return $post;
     }
 
-    public function delete(Post $post)
+    public function delete(Post $post): ?bool
     {
         return $post->delete();
     }
 
-    public function getWithPagination()
+    public function getWithPagination(): LengthAwarePaginator
     {
-        return Post::whereNull('deleted_at')->paginate(10);
+        return Post::paginate(self::PER_PAGE);
     }
 }
