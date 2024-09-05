@@ -93,7 +93,6 @@ class PostControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'data' => [
-
                     'comments' => [
                         [
                             'text' => $comment->text,

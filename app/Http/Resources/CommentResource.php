@@ -11,11 +11,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class CommentResource extends JsonResource
 {
-    public function __construct(Comment $resource)
-    {
-        parent::__construct($resource);
-    }
-
     /**
      * Transform the resource into an array.
      *

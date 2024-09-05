@@ -11,11 +11,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class PostResource extends JsonResource
 {
-    public function __construct(Post $resource)
-    {
-        parent::__construct($resource);
-    }
-
     /**
      * Transform the resource into an array.
      *

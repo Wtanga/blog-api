@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit;
 
 use App\Events\Post\PostCreated;
 use App\Models\Post;
@@ -19,7 +19,7 @@ class PostServiceTest extends TestCase
         $this->postService = new PostService;
     }
 
-    public function test_CreatePost()
+    public function test_create_post()
     {
         Event::fake();
 
@@ -37,7 +37,7 @@ class PostServiceTest extends TestCase
         });
     }
 
-    public function test_UpdatePost()
+    public function test_update_post()
     {
         $post = Post::factory()->create();
         $newTitle = 'Updated Title';
@@ -50,7 +50,7 @@ class PostServiceTest extends TestCase
         $this->assertEquals($newDescription, $updatedPost->description);
     }
 
-    public function test_DeletePost()
+    public function test_delete_post()
     {
         $post = Post::factory()->create();
 
@@ -60,7 +60,7 @@ class PostServiceTest extends TestCase
         $this->assertSoftDeleted($post);
     }
 
-    public function test_GetWithPagination()
+    public function test_get_pagination()
     {
         Post::factory()->count(20)->create();
 
