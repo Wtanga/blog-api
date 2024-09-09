@@ -12,7 +12,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(NotificationService::class, function () {
+            return new NotificationService(
+                config()->string('admin.email'),
+            );
+        });
     }
 
     /**
@@ -20,10 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton(NotificationService::class, function () {
-            return new NotificationService(
-                config()->string('admin.email'),
-            );
-        });
+        //
     }
 }
