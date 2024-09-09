@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/github/Wtanga/blog-api/branch/feature_blog_api/graph/badge.svg?token=I29PJOWGI7)](https://codecov.io/github/Wtanga/blog-api)
 ![Simply the best ;)](https://img.shields.io/badge/simply-the%20best%20%3B%29-orange)
 
 <img align="right" width="50%" src="https://laravel.com/img/logotype.min.svg" alt="">
@@ -31,3 +32,49 @@
 ## Git:
 - Выложите решение на систему контроля версий (GitLab, GitHub).
 - Инит Laravel должен быть на ветке master/main, код тестового задания на отдельной ветке.
+
+## Start
+`docker-compose up -d --build`
+- visit http://127.0.0.1:8000
+
+## Seed
+`docker-compose exec app php artisan migrate:fresh --seed`
+
+## Test
+`docker-compose exec app php artisan test`
+
+# API Routes
+
+### Posts
+- **`GET|HEAD`** `/api/posts`  
+  _Action:_ `posts.index`  
+  _Controller:_ `PostController@index`
+
+- **`POST`** `/api/posts`  
+  _Action:_ `posts.store`  
+  _Controller:_ `PostController@store`
+
+- **`GET|HEAD`** `/api/posts/{post}`  
+  _Action:_ `posts.show`  
+  _Controller:_ `PostController@show`
+
+- **`PUT|PATCH`** `/api/posts/{post}`  
+  _Action:_ `posts.update`  
+  _Controller:_ `PostController@update`
+
+- **`DELETE`** `/api/posts/{post}`  
+  _Action:_ `posts.destroy`  
+  _Controller:_ `PostController@destroy`
+
+### Comments
+- **`POST`** `/api/posts/{post}/comments`  
+  _Action:_ `posts.comments.store`  
+  _Controller:_ `CommentController@store`
+
+- **`PUT|PATCH`** `/api/posts/{post}/comments/{comment}`  
+  _Action:_ `posts.comments.update`  
+  _Controller:_ `CommentController@update`
+
+- **`DELETE`** `/api/posts/{post}/comments/{comment}`  
+  _Action:_ `posts.comments.destroy`  
+  _Controller:_ `CommentController@destroy`
